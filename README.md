@@ -39,4 +39,5 @@ Then open <http://localhost:4173>.
 - Captured detection uses a color-saturation heuristic:
   - Higher saturation => likely captured (colored artwork).
   - Lower saturation => likely missing (greyed out).
+- OCR extracts four-digit Pokédex numbers from each screenshot.
 - This MVP stores snapshots in browser `localStorage` and share links contain encoded snapshot payloads.
