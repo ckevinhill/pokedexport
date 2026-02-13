@@ -23,47 +23,60 @@ screenshotInput.addEventListener('change', async (event) => {
   renderEntries();
   parseStatus.textContent = `Parsing ${files.length} screenshot(s)...`;
   let entryIndex = 0;
+  let failedFiles = 0;
 
   for (const [index, file] of files.entries()) {
     parseStatus.textContent = `Reading screenshot ${index + 1}/${files.length}...`;
-    const objectUrl = URL.createObjectURL(file);
-    const bitmap = await createImageBitmap(file);
-    const captured = await detectCapturedState(bitmap, 0.2);
-    const ocr = await runOCR(file);
-    const parsed = parseDexText(ocr.text || '');
+    
+    try {
+      const objectUrl = URL.createObjectURL(file);
+      const bitmap = await createImageBitmap(file);
+      const captured = await detectCapturedState(bitmap, 0.2);
+      const ocr = await runOCR(file);
+      const parsed = parseDexText(ocr.text || '');
 
-    if (!parsed.dexNumbers.length) {
-      entryIndex += 1;
-      extractedEntries.push({
-        id: crypto.randomUUID(),
-        previewUrl: objectUrl,
-        dexNumber: null,
-        captured,
-        confidence: deriveConfidence(captured, parsed.confidence),
-        source: 'screenshot',
-        ocrRaw: ocr.text || '',
-        index: entryIndex,
-      });
-    } else {
-      parsed.dexNumbers.forEach((dexNumber) => {
+      if (!parsed.dexNumbers.length) {
         entryIndex += 1;
         extractedEntries.push({
           id: crypto.randomUUID(),
           previewUrl: objectUrl,
-          dexNumber,
+          dexNumber: null,
           captured,
           confidence: deriveConfidence(captured, parsed.confidence),
           source: 'screenshot',
           ocrRaw: ocr.text || '',
           index: entryIndex,
         });
-      });
-    }
+      } else {
+        parsed.dexNumbers.forEach((dexNumber) => {
+          entryIndex += 1;
+          extractedEntries.push({
+            id: crypto.randomUUID(),
+            previewUrl: objectUrl,
+            dexNumber,
+            captured,
+            confidence: deriveConfidence(captured, parsed.confidence),
+            source: 'screenshot',
+            ocrRaw: ocr.text || '',
+            index: entryIndex,
+          });
+        });
+      }
 
-    renderEntries();
+      renderEntries();
+    } catch (error) {
+      console.error(`Failed to process file ${file.name}:`, error);
+      failedFiles += 1;
+    }
   }
 
-  parseStatus.textContent = `Done. Parsed ${extractedEntries.length} Pokémon from ${files.length} screenshot(s). Review before saving.`;
+  const successCount = files.length - failedFiles;
+  let statusMessage = `Done. Parsed ${extractedEntries.length} Pokémon from ${successCount} screenshot(s).`;
+  if (failedFiles > 0) {
+    statusMessage += ` ${failedFiles} file(s) failed to process.`;
+  }
+  statusMessage += ' Review before saving.';
+  parseStatus.textContent = statusMessage;
 });
 
 saveSnapshotBtn.addEventListener('click', () => {
