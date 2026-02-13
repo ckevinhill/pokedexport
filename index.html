@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PokeDexPorter MVP</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <main class="app-shell">
+      <header>
+        <h1>PokeDexPorter</h1>
+        <p class="subtitle">Upload Pokédex screenshots, review entries, then share and compare.</p>
+      </header>
+
+      <section class="card">
+        <h2>1) Import via screenshots</h2>
+        <input id="screenshotInput" type="file" accept="image/*" multiple />
+        <p class="hint">
+          We extract all four-digit Pokédex numbers from each screenshot. Review and edit before saving.
+        </p>
+        <div id="parseStatus" class="status">No files selected.</div>
+      </section>
+
+      <section class="card">
+        <div class="section-title-row">
+          <h2>2) Review extracted entries</h2>
+          <button id="saveSnapshotBtn" type="button">Save snapshot</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Dex #</th>
+                <th>Captured</th>
+                <th>Confidence</th>
+              </tr>
+            </thead>
+            <tbody id="reviewBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>3) Share your latest snapshot</h2>
+        <div class="section-title-row">
+          <button id="generateShareBtn" type="button">Generate share link</button>
+          <button id="copyShareBtn" type="button">Copy</button>
+        </div>
+        <textarea id="shareLink" rows="3" readonly placeholder="Share link appears here..."></textarea>
+      </section>
+
+      <section class="card">
+        <h2>4) Compare with a friend</h2>
+        <input id="compareLink" type="url" placeholder="Paste friend's share link" />
+        <button id="runCompareBtn" type="button">Compare snapshots</button>
+        <div id="compareOutput" class="compare-grid"></div>
+      </section>
+    </main>
+  </body>
+</html>

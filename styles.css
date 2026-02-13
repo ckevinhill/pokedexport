@@ -1,0 +1,129 @@
+:root {
+  color-scheme: light;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  --bg: #f4f6fa;
+  --card: #ffffff;
+  --ink: #17212f;
+  --subtle: #51627a;
+  --border: #d7dfeb;
+  --accent: #245ee8;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+.app-shell {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1rem;
+  display: grid;
+  gap: 1rem;
+}
+
+h1,
+h2 {
+  margin: 0;
+}
+
+.subtitle,
+.hint,
+.status {
+  color: var(--subtle);
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.section-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: #fff;
+  border-radius: 8px;
+  padding: 0.45rem 0.7rem;
+}
+
+button:disabled {
+  opacity: 0.45;
+}
+
+input[type='file'],
+input[type='url'],
+textarea {
+  width: 100%;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 620px;
+}
+
+th,
+td {
+  border-bottom: 1px solid var(--border);
+  padding: 0.45rem;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.thumb {
+  width: 48px;
+  height: 48px;
+  border-radius: 6px;
+  object-fit: cover;
+  border: 1px solid var(--border);
+}
+
+.compare-grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.compare-card {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.6rem;
+}
+
+.compare-card ul {
+  margin: 0.35rem 0 0;
+  padding-left: 1.2rem;
+}
+
+@media (max-width: 640px) {
+  .app-shell {
+    padding: 0.75rem;
+  }
+
+  button {
+    width: 100%;
+  }
+}
