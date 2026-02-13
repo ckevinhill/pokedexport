@@ -17,6 +17,22 @@ python3 -m http.server 4173
 
 Then open <http://localhost:4173>.
 
+## Run in a container
+
+Build the image:
+
+```bash
+docker build -t pokedexport .
+```
+
+Run the container:
+
+```bash
+docker run --rm -p 4173:4173 pokedexport
+```
+
+Then open <http://localhost:4173>.
+
 ## Notes
 
 - Screenshot parsing uses browser OCR via `tesseract.js` (CDN).
